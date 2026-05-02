@@ -1,0 +1,116 @@
+{{ 'product-grid.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'product-grid.js' | asset_url }}" defer="defer"></script>
+
+<div class="image_grid_section">
+  <div class="container">
+    {% if section.settings.section_title != blank %}
+      <h2 class="image_grid_title">{{ section.settings.section_title }}</h2>
+    {% endif %}
+    {% if section.blocks.size > 0 %}
+      <div class="image_grid">
+        {% for block in section.blocks %}
+          {% if block.settings.product != blank %}
+            {% style %}
+              #image_block_{{ block.id }} .hotspot-icon {
+                top: {{ block.settings.position_top }}%;
+                left: {{ block.settings.position_left }}%;
+              }
+            {% endstyle %}
+            <div class="image_block" id="image_block_{{ block.id }}">
+              <div class="aspect_ratio">
+                {% liquid
+                  if block.settings.image != blank
+                    assign image = block.settings.image
+                    assign alt = block.settings.image.alt | escape
+                  else
+                    assign image = block.settings.product.featured_media
+                    assign alt = block.settings.product.title | escape
+                  endif
+                %}
+
+                {{ image | image_url: width: 500 | image_tag: loading: 'lazy', fetchpriority: 'high', alt: alt }}
+
+                <hotspot-icon class="hotspot-icon" data-handle="{{ block.settings.product.url }}">
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M4.98047 0.75V9.21154" stroke="black" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"/>
+                    <path d="M0.75 4.98071H9.21154" stroke="black" stroke-width="1.5" stroke-linecap="square" stroke-linejoin="round"/>
+                  </svg>
+                </hotspot-icon>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+<div id="hotspot_popup" class="hotspot_popup">
+  <div class="hotspot-content">
+    <div class="close-button">×</div>
+    <div class="hotspot-content-html"></div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product Grid",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_title",
+      "label": "Section Title"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "product",
+      "name": "Product",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product"
+        },
+        {
+          "type": "header",
+          "content": "Hubsport Positions"
+        },
+        {
+          "type": "range",
+          "id": "position_top",
+          "label": "Top Position",
+          "min": 0,
+          "max": 100,
+          "unit": "%",
+          "default": 50
+        },
+        {
+          "type": "range",
+          "id": "position_left",
+          "label": "Left Position",
+          "min": 0,
+          "max": 100,
+          "unit": "%",
+          "default": 50
+        }
+      ]
+    }
+  ],
+
+  "presets": [
+    {
+      "name": "Product Grid",
+      "category": "New"
+    }
+  ]
+}
+{% endschema %}

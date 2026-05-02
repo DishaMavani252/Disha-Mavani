@@ -1,0 +1,276 @@
+@import url('https://fonts.googleapis.com/css2?family=Lustria&display=swap');
+
+
+/* Image Section */
+.image_grid_section {
+    padding: 90px 0 50px;
+}
+
+.image_grid {
+    display: grid;
+    gap: 20px;
+    grid-template-columns: 1fr 1fr 1fr;
+    margin-top: 30px;
+}
+
+.image_grid .aspect_ratio {
+    padding-top: 102.6%;
+}
+
+.image_grid_title {
+    font-size: 36px;
+    line-height: 1.2;
+    letter-spacing: 0;
+    font-weight: 400;
+    margin: 0 0 30px;
+    font-family: "Lustria", serif;
+}
+
+.image_block {
+    position: relative;
+}
+
+.hotspot-icon {
+    position: absolute;
+    z-index: 1;
+    width: 20px;
+    height: 20px;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+}
+
+.hotspot-icon svg {
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    border-radius: 50px;
+    padding: 3px;
+    pointer-events: none;
+}
+
+.hotspot_popup {
+    display: flex;
+    position: fixed;
+    top: 200%;
+    right: 0;
+    left: 0;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    transition: top 0.3s ease-in-out, background 0.6s ease-in-out;
+    background: transparent;
+    bottom: 0;
+}
+
+.hotspot_popup.active {
+    top: 0;
+    background: #0009;
+}
+
+.hotspot-content {
+    background: #fff;
+    padding: 36px 20px 25px;
+    width: 311px;
+    max-width: 90%;
+    border-radius: 0;
+    text-align: center;
+    position: relative;
+}
+
+.close-button {
+    position: absolute;
+    top: 0;
+    right: 12px;
+    font-size: 28px;
+    cursor: pointer;
+    line-height: 1.5;
+}
+
+
+/* popup content css start */
+.product-details {
+    display: flex;
+    gap: 10px;
+}
+
+.product-img {
+    flex: 0 0 44.3%;
+}
+
+.product-img .aspect_ratio {
+    padding-top: 117%;
+}
+
+.hotspot-content-html fieldset {
+    border: none;
+    text-align: left;
+}
+
+.details-right {
+    text-align: left;
+}
+
+.details-right h3 {
+    margin: 13px 0 20px;
+    font-size: 16px;
+    font-weight: 300;
+    line-height: 1.2;
+}
+
+.details-right .price {
+    margin: 0 0 12px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.2;
+    font-family: "Lustria", serif;
+}
+
+.details-right .short-description.rte {
+    margin: 10px 0 0;
+    font-size: 14px;
+    line-height: 1.1;
+    letter-spacing: -0.014px;
+}
+
+.hotspot-content-html .option-name {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.3;
+    margin-bottom: 6px;
+}
+
+.hotspot-content-html input+label {
+    padding: 10px 7px 10px 13px;
+    min-width: 70px;
+    display: inline-block;
+    margin: 0;
+    font-size: 18px;
+    outline: 1px solid #000000;
+    flex: 0 0 calc(50% - 1px / 2);
+    position: relative;
+    line-height: 1;
+}
+
+.hotspot-content-html input:checked+label::after {
+    background-color: var(--color);
+}
+
+.hotspot-content-html input {
+    display: none;
+}
+
+.option-values {
+    display: flex;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    flex-wrap: wrap;
+}
+
+.hotspot-content-html input+label::after {
+    content: "";
+    position: absolute;
+    left: -1px;
+    top: -1px;
+    width: 5px;
+    background: var(--color);
+    bottom: -1px;
+    z-index: 0;
+    border: 1px solid;
+    border-color: var(--color);
+    border-color: black;
+}
+
+.product-form__error-message-wrapper {
+    font-size: 12px;
+    color: red;
+}
+
+.options-dropdown {
+    display: flex;
+    width: 100%;
+    padding: 10px 6px;
+    font-size: 16px;
+    border-radius: 0;
+    border: 1px solid #000000;
+    background-image: url("https://cdn.shopify.com/s/files/1/1005/2363/8916/files/Vector_1_1.svg");
+    background-repeat: no-repeat;
+    background-position: right 20px center;
+    background-size: 18px;
+    appearance: none;
+    -webkit-appearance: none;
+}
+
+.option-values:has(.options-dropdown) {
+    position: relative;
+}
+
+.option-values:has(.options-dropdown)::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 55px;
+    height: 100%;
+    width: 1px;
+    background: #000000;
+}
+
+.options-dropdown:focus-visible {
+    outline: unset;
+    outline-offset: unset;
+    box-shadow: unset;
+}
+
+#hotspot-popup-product {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.hotspot-content-html fieldset {
+    padding: 0;
+    margin: 10px 0;
+    width: 100%;
+}
+
+.hotspot-content-html fieldset.color_order {
+    order: 1;
+}
+
+.hotspot-content-html fieldset.size_order {
+    order: 2;
+}
+
+.product-form-buttons {
+    margin-top: 40px;
+}
+
+.hotspot-content-html input:checked+label {
+    background-color: #000;
+    color: #fff;
+    transition: all .3s ease-in-out;
+}
+
+/* popup content css end */
+
+@media only screen and (max-width: 767px) {
+    .image_grid {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .image_grid_section {
+        padding: 40px 0 25px;
+    }
+
+    .image_grid_title {
+        text-align: center;
+        margin-bottom: 20px;
+        font-size: 24px;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .image_grid {
+        gap: 4px;
+    }
+}

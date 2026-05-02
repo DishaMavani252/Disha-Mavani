@@ -1,0 +1,57 @@
+{%- if block.settings.link != blank and block.settings.text != blank -%}
+  <a
+    href="{{ block.settings.link }}"
+    class="
+      btn {{ block.settings.position }}
+      {% if block.settings.style == 'secondary' %} btn_yellow{% endif %}
+    "
+  >
+    <span>{{ block.settings.text }}</span>
+    <svg width="34" height="15" viewBox="0 0 34 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path
+        d="M1 6.36401L9.83506e-08 6.36401L-9.83506e-08 8.36401L1 8.36401L1 7.36401L1 6.36401ZM33.7071 8.07112C34.0976 7.6806 34.0976 7.04743 33.7071 6.65691L27.3431 0.292948C26.9526 -0.0975765 26.3195 -0.0975766 25.9289 0.292948C25.5384 0.683472 25.5384 1.31664 25.9289 1.70716L31.5858 7.36402L25.9289 13.0209C25.5384 13.4114 25.5384 14.0446 25.9289 14.4351C26.3195 14.8256 26.9526 14.8256 27.3431 14.4351L33.7071 8.07112ZM1 7.36401L1 8.36401L33 8.36402L33 7.36402L33 6.36402L1 6.36401L1 7.36401Z"
+        fill="currentColor" />
+    </svg>
+  </a>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Button",
+  "settings": [
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Button Text"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
+    },
+    {
+      "type": "select",
+      "id": "style",
+      "label": "Button Style",
+      "options": [
+        { "value": "primary", "label": "Primary" },
+        { "value": "secondary", "label": "Secondary" }
+      ],
+      "default": "primary"
+    },
+
+    {
+      "type": "select",
+      "id": "position",
+      "label": "Button Position",
+      "options": [
+        { "value": "desktop_only", "label": "Desktop" },
+        { "value": "mobile_only", "label": "Mobile" },
+        { "value": "both", "label": "Both" }
+      ],
+      "default": "both"
+    }
+  ],
+  "presets": [{ "name": "Button" }]
+}
+{% endschema %}

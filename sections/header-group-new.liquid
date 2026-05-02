@@ -1,0 +1,85 @@
+{{ 'header-style.css' | asset_url | stylesheet_tag }}
+<script src="{{ 'header-style.js' | asset_url }}" defer="defer"></script>
+
+<header class="header-new" style="--header_content_color: {{ section.settings.header_content_color }}">
+  <div class="container">
+    <div class="header_inner">
+      <div class="menu_icon mob_only">
+        <a href="javascript:void(0)">
+          <span class="menu_open">
+            <svg width="20" height="12" viewBox="0 0 20 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 6H19" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M1 1H19" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M1 11H19" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" >
+            </svg>
+          </span>
+          <span class="menu_close">
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 13.9994L13.7279 1.27147" stroke="black" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+              <path d="M1 1L13.7279 13.7279" stroke="black" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" />
+            </svg>
+          </span>
+        </a>
+      </div>
+      <div class="header_logo">
+        <a href="{{ shop.url }}">
+          {% if section.settings.logo != blank %}
+            {{
+              section.settings.logo
+              | image_url: width: 3840
+              | image_tag:
+                width: section.settings.logo.width,
+                widths: widths,
+                height: section.settings.logo.height,
+                alt: section.settings.logo.alt,
+                class: 'logo-image',
+                sizes: sizes,
+                fetchpriority: fetch_priority,
+                data-testid: 'hero-desktop-image-1'
+            }}
+          {% else %}
+            {{ shop.name }}
+          {% endif %}
+        </a>
+      </div>
+      <div class="menu_dropdown">
+        <div class="header_text">
+          {% content_for 'block', type: 'text', id: 'text' %}
+        </div>
+        <div class="header_btn">
+          {% content_for 'block', type: 'button', id: 'button' %}
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Header - New",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "blocks": [{ "type": "@app" }],
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo"
+    },
+    {
+      "type": "color",
+      "id": "header_content_color",
+      "label": "Header Content Color",
+      "default": "#F5F5F5"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Header - New"
+    }
+  ]
+}
+{% endschema %}

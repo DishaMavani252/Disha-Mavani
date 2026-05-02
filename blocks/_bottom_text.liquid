@@ -1,0 +1,48 @@
+{%- if block.settings.text != blank -%}
+  <div
+    class="banner_bottom"
+    style="background-color: {{ block.settings.background_color }}; color: {{ block.settings.text_color }};"
+  >
+    <div class="desk_only">
+      {{ block.settings.text }}
+    </div>
+    <div class="mob_only">
+      {% if block.settings.mobile_text != blank %}
+        {{ block.settings.mobile_text }}
+      {% elsif block.settings.text != blank %}
+        {{ block.settings.text }}
+      {% endif %}
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Bottom Text",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "text",
+      "label": "Desktop Text"
+    },
+    {
+      "type": "richtext",
+      "id": "mobile_text",
+      "label": "Mobile Text"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#F5F5F5"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#000000"
+    }
+  ],
+  "presets": [{ "name": "bottom_text" }]
+}
+{% endschema %}
