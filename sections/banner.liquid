@@ -1,0 +1,137 @@
+{{ 'banner_section.css' | asset_url | stylesheet_tag }}
+
+{%- liquid
+  assign sizes = '100vw'
+  assign full_width = '100vw'
+  assign widths = '375, 550, 750, 1100, 1500, 1780, 2000, 3000, 3840'
+  assign fetch_priority = 'auto'
+  if section.index == 1
+    assign fetch_priority = 'high'
+  endif
+  assign desktop_image = section.settings.image
+  if section.settings.mob_image != blank
+    assign mobile_image = section.settings.mob_image
+  else
+    assign mobile_image = section.settings.image
+  endif
+-%}
+
+<section class="banner_section">
+  <div class="container">
+    <div class="banner_content {{ section.settings.content_alignment }} {{ section.settings.text_alignment }}">
+      <div
+        class="banner_content_inner"
+        {% if section.settings.background_color != blank %}
+          style="--banner_content_inner: {{ section.settings.background_color }};"
+        {% endif %}
+      >
+        {% content_for 'blocks' %}
+      </div>
+    </div>
+  </div>
+  <div class="bg_image">
+    {% if desktop_image != blank or mobile_image != blank %}
+      {{
+        desktop_image
+        | image_url: width: 1920
+        | image_tag:
+          width: desktop_image.width,
+          widths: widths,
+          height: desktop_image.height,
+          alt: desktop_image.alt,
+          class: 'desktop_only',
+          sizes: sizes,
+          fetchpriority: fetch_priority,
+          data-testid: 'hero-desktop-image-1'
+      }}
+      {{
+        mobile_image
+        | image_url: width: 1024
+        | image_tag:
+          width: mobile_image.width,
+          widths: widths,
+          height: mobile_image.height,
+          alt: mobile_image.alt,
+          class: 'mobile_only',
+          sizes: sizes,
+          fetchpriority: fetch_priority,
+          data-testid: 'hero-mobile-image-1'
+      }}
+    {% else %}
+      {{ 'lifestyle-2' | placeholder_svg_tag }}
+    {% endif %}
+    {% content_for 'block', type: 'button', id: 'button' %}
+  </div>
+  {% content_for 'block', type: '_bottom_text', id: 'title' %}
+</section>
+
+{% schema %}
+{
+  "name": "Banner",
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  },
+  "blocks": [{ "type": "@theme" }, { "type": "@app" }],
+  "settings": [
+    {
+      "type": "header",
+      "content": "Banner Content"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Desktop Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "mob_image",
+      "label": "Mobile Image"
+    },
+    {
+      "type": "header",
+      "content": "BannerContent"
+    },
+
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text Alignment",
+      "options": [
+        { "value": "text_left", "label": "Left" },
+        { "value": "text_center", "label": "Center" },
+        { "value": "text_right", "label": "Right" }
+      ],
+      "default": "text_left"
+    },
+    {
+      "type": "select",
+      "id": "content_alignment",
+      "label": "Content Position",
+      "options": [
+        { "value": "left_top", "label": "Left Top" },
+        { "value": "left_center", "label": "Left Center" },
+        { "value": "left_bottom", "label": "Left Bottom" },
+        { "value": "center_top", "label": "Center Top" },
+        { "value": "center_center", "label": "Center Center" },
+        { "value": "center_bottom", "label": "Center Bottom" },
+        { "value": "right_top", "label": "Right Top" },
+        { "value": "right_center", "label": "Right Center" },
+        { "value": "right_bottom", "label": "Right Bottom" }
+      ],
+      "default": "left_bottom"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Banner",
+      "category": "New"
+    }
+  ]
+}
+{% endschema %}

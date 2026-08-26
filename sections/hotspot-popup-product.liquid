@@ -1,0 +1,220 @@
+<script>
+  window.routes = {
+    cart_url: '{{ routes.cart_url }}',
+  };
+  window.variantStrings = {
+    addToCart: `{{ 'products.product.add_to_cart' | t }}`,
+  };
+</script>
+
+{% comment %} {%- assign product = section.settings.product -%} {% endcomment %}
+{% liquid
+  assign product_form_id = 'product-form-' | append: section.id
+  assign current_variant = product.selected_or_first_available_variant
+%}
+<div class="hotspot-content-html">
+  <product-info>
+    <div class="product-details">
+      <div class="product-img">
+        <div class="aspect_ratio">
+          {{
+            current_variant.featured_media
+            | default: product.featured_media
+            | image_url: width: 500
+            | image_tag: loading: 'lazy'
+          }}
+        </div>
+      </div>
+      <div class="details-right">
+        <h3>{{ product.title }}</h3>
+        <div class="price">
+          {{ current_variant.price | money }}
+        </div>
+        <div class="short-description rte">
+          <p>{{ product.description | truncatewords: 20 | strip_html }}</p>
+        </div>
+      </div>
+    </div>
+    <variant-picker-custom id="{{ section.id }}" data-handle="{{ product.url }}">
+      {% for option in product.options_with_values %}
+        {% assign downcased_option_name = option.name | downcase %}
+        <fieldset class="{{ option.name | handle }}_order">
+          <div class="option-name">
+            {{ option.name }}
+          </div>
+          <div class="option-values">
+            {% if downcased_option_name contains 'size' or downcased_option_name contains 'sizes' %}
+              <select class="options-dropdown" id="option-{{ option.name | handle }}">
+                <option value="null" hidden selected>Choose your size</option>
+                {% for value in option.values %}
+                  <option
+                    id="{{option.name}}-{{ value }}"
+                    value="{{ value.id}}"
+                    {% if value.selected and product.selected_variant != blank %}
+                      selected="selected"
+                    {% endif %}
+                  >
+                    {{ value }}
+                  </option>
+                {% endfor %}
+              </select>
+            {% else %}
+              {% for value in option.values %}
+                <input
+                  type="radio"
+                  name="{{section.id}}-{{ option.name }}"
+                  id="{{option.name | handle }}-{{ value | handle }}"
+                  value="{{ value.id }}"
+                  class="visually-hidden"
+                  {% if value.selected %}
+                    checked
+                  {% endif %}
+                >
+                <label for="{{option.name | handle }}-{{ value | handle }}" style="--color: {{ value }}">
+                  <span>{{ value }}</span>
+                </label>
+              {% endfor %}
+            {% endif %}
+          </div>
+        </fieldset>
+      {% endfor %}
+    </variant-picker-custom>
+    <product-form-custom
+      class="product-form"
+      data-section-id="{{ section.id }}"
+    >
+      <div class="product-form__error-message-wrapper" role="alert" hidden>
+        <span class="product-form__error-message"></span>
+      </div>
+
+      {%- form 'product',
+        product,
+        id: product_form_id,
+        class: 'form',
+        novalidate: 'novalidate',
+        data-type: 'add-to-cart-form'
+      -%}
+        <input
+          type="hidden"
+          name="id"
+          value="{{ current_variant.id }}"
+          {% if current_variant.available == false or current_variant == null %}
+            disabled
+          {% endif %}
+          class="product-variant-id"
+        >
+        <!-- Add on product logic start -->
+        {% assign variantOptionsArray = blank %}
+        {% for option in current_variant.options %}
+          {% unless forloop.first %}
+            {% assign variantOptionsArray = variantOptionsArray | append: ',' | append: option %}
+          {% else %}
+            {% assign variantOptionsArray = option %}
+          {% endunless %}
+        {% endfor %}
+
+        {% assign variant_matched = false %}
+        {% if settings.add_on_product != blank and settings.add_on_for_variant != blank %}
+          {% assign hasToBeOptionArray = settings.add_on_for_variant | replace: ', ', ',' | split: ',' %}
+          {% for value in hasToBeOptionArray %}
+            {% assign index = variantOptionsArray | find_index: value %}
+            {% if index == null %}
+              {% assign variant_matched = false %}
+              {% break %}
+            {% endif %}
+            {% assign variant_matched = true %}
+          {% endfor %}
+        {% endif %}
+
+        {% comment %} variant_matched === {{ variant_matched }} {% endcomment %}
+
+        {% if variant_matched %}
+          {% assign add_on_product = all_products[settings.add_on_product] %}
+          {% if settings.add_on_product_required != blank %}
+            {% assign add_this_variant = add_on_product.selected_or_first_available_variant %}
+          {% else %}
+            {% for variant in add_on_product.variants %}
+              {% for value in hasToBeOptionArray %}
+                {% assign index = variant.title | find_index: value %}
+                {% if index == null %}
+                  {% assign add_this_variant = null %}
+                  {% break %}
+                {% endif %}
+                {% assign add_this_variant = variant %}
+              {% endfor %}
+              {% if add_this_variant != null %}
+                {% break %}
+              {% endif %}
+              {% for value in hasToBeOptionArray %}
+                {% assign index = variant.title | find_index: value %}
+                {% if index == null %}
+                  {% assign add_this_variant = null %}
+                  {% break %}
+                {% endif %}
+                {% assign add_this_variant = variant %}
+              {% endfor %}
+              {% if add_this_variant != null %}
+                {% break %}
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+          {% if add_this_variant != null and add_this_variant.available %}
+            <input type="hidden" name="items[1][id]" value="{{ add_this_variant.id }}">
+            <input type="hidden" name="items[1][quantity]" value="1">
+          {% endif %}
+        {% endif %}
+        <!-- Add on product logic end -->
+
+        <div class="product-form-buttons">
+          {%- liquid
+            assign check_against_inventory = true
+            if current_variant.inventory_management != 'shopify' or current_variant.inventory_policy == 'continue'
+              assign check_against_inventory = false
+            endif
+            if current_variant.quantity_rule.min > current_variant.inventory_quantity and check_against_inventory
+              assign quantity_rule_soldout = true
+            endif
+          -%}
+          <button
+            id="ProductSubmitButton-{{ section.id }}"
+            type="submit"
+            name="add"
+            class="btn product-form-submit button button--full-width button--primary"
+            {% if current_variant.available == false or quantity_rule_soldout or current_variant == null %}
+              disabled
+            {% endif %}
+          >
+            <span>
+              {%- if current_variant == null -%}
+                Unavailable
+              {%- elsif current_variant.available == false or quantity_rule_soldout -%}
+                Sold Out
+              {%- else -%}
+                Add to Cart
+              {%- endif -%}
+            </span>
+            {%- render 'loading-spinner' -%}
+          </button>
+        </div>
+      {%- endform -%}
+    </product-form-custom>
+  </product-info>
+</div>
+{% schema %}
+{
+  "name": "Hotspot popup Product",
+  "settings": [
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Choose Product"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hotspot popup Product",
+      "category": "New"
+    }
+  ]
+}
+{% endschema %}

@@ -9,76 +9,141 @@
  */
 {
   "sections": {
-    "image_banner": {
-      "type": "image-banner",
+    "banner_j9Azqt": {
+      "type": "banner",
       "blocks": {
-        "heading": {
-          "type": "heading",
+        "text_JELqCp": {
+          "type": "text",
+          "name": "Text",
           "settings": {
-            "heading": "Browse our latest products",
-            "heading_size": "h0"
-          }
+            "text": "<h1>The Gift Guide</h1>"
+          },
+          "blocks": {}
+        },
+        "text_jrmMYa": {
+          "type": "text",
+          "name": "Content",
+          "settings": {
+            "text": "<p>Discover Joy: Your Ultimate Holiday Gift Destination. Explore our curated selection and find the perfect gifts to delight your loved ones this holiday season.</p>"
+          },
+          "blocks": {}
+        },
+        "button_xDGBza": {
+          "type": "button",
+          "name": "Button",
+          "settings": {
+            "text": "Shop Now",
+            "link": "shopify://collections",
+            "style": "primary",
+            "position": "desktop_only"
+          },
+          "blocks": {}
         },
         "button": {
-          "type": "buttons",
+          "type": "button",
+          "static": true,
           "settings": {
-            "button_label_1": "Shop all",
-            "button_link_1": "shopify://collections/all",
-            "button_style_secondary_1": true,
-            "button_label_2": "",
-            "button_link_2": "",
-            "button_style_secondary_2": false
+            "text": "Shop Now",
+            "link": "shopify://pages/contact",
+            "style": "primary",
+            "position": "mobile_only"
+          },
+          "blocks": {}
+        },
+        "title": {
+          "type": "_bottom_text",
+          "static": true,
+          "settings": {
+            "text": "<p>SUSTAINABLE, ETHICALLY MADE CLOTHES IN SIZES XXS TO 6XL</p>",
+            "mobile_text": "<p>SUSTAINABLE, ETHICALLY MADE ACTIVEWEAR</p>",
+            "background_color": "#f5f5f5",
+            "text_color": "#000000"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "text_JELqCp",
+        "text_jrmMYa",
+        "button_xDGBza"
+      ],
+      "name": "Banner",
+      "settings": {
+        "image": "shopify://shop_images/banner_bg.png",
+        "mob_image": "shopify://shop_images/banner_bg.png",
+        "background_color": "#ffffff",
+        "text_alignment": "text_left",
+        "content_alignment": "left_bottom"
+      }
+    },
+    "product_grid_GWHPJJ": {
+      "type": "product-grid",
+      "blocks": {
+        "product_TqEFGk": {
+          "type": "product",
+          "settings": {
+            "product": "black-leather-bag",
+            "position_top": 55,
+            "position_left": 60
+          }
+        },
+        "product_LKCnA9": {
+          "type": "product",
+          "settings": {
+            "product": "blue-silk-tuxedo",
+            "position_top": 50,
+            "position_left": 80
+          }
+        },
+        "product_gLVRYm": {
+          "type": "product",
+          "settings": {
+            "product": "chequered-red-shirt",
+            "position_top": 20,
+            "position_left": 60
+          }
+        },
+        "product_nXPniF": {
+          "type": "product",
+          "settings": {
+            "product": "classic-leather-jacket",
+            "position_top": 20,
+            "position_left": 70
+          }
+        },
+        "product_BRjd3a": {
+          "type": "product",
+          "settings": {
+            "product": "classic-varsity-top",
+            "position_top": 30,
+            "position_left": 50
+          }
+        },
+        "product_mX3MQ6": {
+          "type": "product",
+          "settings": {
+            "product": "dark-denim-top",
+            "position_top": 43,
+            "position_left": 75
           }
         }
       },
       "block_order": [
-        "heading",
-        "button"
+        "product_TqEFGk",
+        "product_LKCnA9",
+        "product_gLVRYm",
+        "product_nXPniF",
+        "product_BRjd3a",
+        "product_mX3MQ6"
       ],
+      "name": "Product Grid",
       "settings": {
-        "image_overlay_opacity": 40,
-        "image_height": "large",
-        "desktop_content_position": "bottom-center",
-        "show_text_box": false,
-        "image_behavior": "none",
-        "desktop_content_alignment": "center",
-        "color_scheme": "scheme-3",
-        "mobile_content_alignment": "center",
-        "stack_images_on_mobile": false,
-        "show_text_below": false
-      }
-    },
-    "featured_collection": {
-      "type": "featured-collection",
-      "settings": {
-        "title": "Featured products",
-        "heading_size": "h2",
-        "description": "",
-        "show_description": false,
-        "description_style": "body",
-        "collection": "all",
-        "products_to_show": 8,
-        "columns_desktop": 4,
-        "color_scheme": "scheme-1",
-        "full_width": false,
-        "show_view_all": true,
-        "view_all_style": "solid",
-        "enable_desktop_slider": false,
-        "swipe_on_mobile": false,
-        "image_ratio": "adapt",
-        "image_shape": "default",
-        "show_secondary_image": true,
-        "show_vendor": false,
-        "show_rating": false,
-        "quick_add": "none",
-        "columns_mobile": "2",
-        "padding_top": 44,
-        "padding_bottom": 36
+        "section_title": "Tisso vison in the wild"
       }
     }
   },
   "order": [
-    "image_banner",
-    "featured_collection"
+    "banner_j9Azqt",
+    "product_grid_GWHPJJ"
   ]
 }

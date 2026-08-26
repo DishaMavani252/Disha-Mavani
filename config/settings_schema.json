@@ -1451,5 +1451,28 @@
         "default": "scheme-1"
       }
     ]
+  },
+  {
+    "name": "Add On products",
+    "settings": [
+      {
+        "type": "product",
+        "id": "add_on_product",
+        "label": "Choose Add on product"
+      },
+      {
+        "type": "checkbox",
+        "id": "add_on_product_required",
+        "label": "Do you want to add First variant of the add-on product?",
+        "default": false,
+        "info": "If you choose this options then add-on product will be added to the cart with the first variant of that product, otherwise, it will be added same variant as the main product variant added to the cart"
+      },
+      {
+        "type": "text",
+        "id": "add_on_for_variant",
+        "label": "Add variant using ', ' seprator",
+        "info": "When any product with variant options you added here then it will be added to the cart the above chosen add-on product should also be automatically added to the cart"
+      }
+    ]
   }
 ]
